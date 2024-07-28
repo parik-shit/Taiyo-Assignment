@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.content {
+  flex: 1;
+  background-color: #fff;
+}
+
+.map-container {
+  height: 90vh;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .map-container {
+    height: 40vh;
+  }
+}
