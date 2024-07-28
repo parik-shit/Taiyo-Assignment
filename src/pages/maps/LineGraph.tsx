@@ -14,7 +14,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-
+// here chartjs-2 is used because chart.js alone is complex to integrate with react
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,6 +26,7 @@ ChartJS.register(
 );
 
 const LineGraph: React.FC = () => {
+  //using fetchHistoricalData service from services/api, it will return an object of type HistoricalData
   const { data, error, isLoading } = useQuery<HistoricalData>({
     queryKey: ['historicalData'],
     queryFn: fetchHistoricalData,
@@ -33,8 +34,9 @@ const LineGraph: React.FC = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching data</div>;
-
+  //chartData will be passed into the line component 
   const chartData = {
+    //Here keys are the Dates over the timeline 
     labels: data ? Object.keys(data.cases) : [],
     datasets: [
       {
@@ -47,7 +49,7 @@ const LineGraph: React.FC = () => {
       },
     ],
   };
-
+  //options will be passed into the Line component
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -82,7 +84,7 @@ const LineGraph: React.FC = () => {
       },
       y: {
         grid: {
-          display: false,
+          display: false,// Hiding y-axis grid lines as well 
           color: '#e0e0e0',
         },
         ticks: {
@@ -93,7 +95,7 @@ const LineGraph: React.FC = () => {
   };
 
   return (
-    <div className="h-full">
+    <div style={{height: '480px'}}>
       <Line data={chartData} options={options} />
     </div>
   );

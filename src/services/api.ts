@@ -2,11 +2,12 @@
 import axios from 'axios';
 import { CountryData } from '../types/CountryData';
 import { HistoricalData } from '../types/HistoricalData';
+import {AllData} from '../types/AllData';
 const BASE_URL = 'https://disease.sh/v3/covid-19';
 
 export const fetchWorldwideData = async () => {
   const response = await axios.get(`${BASE_URL}/all`);
-  return response.data;
+  return response.data as AllData;
 };
 
 export const fetchCountrySpecificData = async (): Promise<CountryData[]> => {
