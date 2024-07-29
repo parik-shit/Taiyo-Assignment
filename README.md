@@ -1,3 +1,78 @@
+
+![image](https://github.com/user-attachments/assets/cb27b568-d87e-4c6e-8f19-bc629710a0b0)
+
+In this app, 3 API enpoints are used - 
+World wide data of cases: https://disease.sh/v3/covid-19/all
+Country Specific data of cases: https://disease.sh/v3/covid-19/countries
+Graph data for cases with date:
+https://disease.sh/v3/covid-19/historical/all?lastdays=all
+
+for each api, an interface was made, also all the fetch functions are in `src/api.ts`, these are used by React Query
+for https://disease.sh/v3/covid-19/all 
+this interface was used 
+```
+interface AllData {
+    updated: number;
+    cases: number;
+    todayCases: number;
+    deaths: number;
+    todayDeaths: number;
+    recovered: number;
+    todayRecovered: number;
+    active: number;
+    critical: number;
+    casesPerOneMillion: number;
+    deathsPerOneMillion: number;
+    tests: number;
+    testsPerOneMillion: number;
+    population: number;
+    oneCasePerPeople: number;
+    oneDeathPerPeople: number;
+    oneTestPerPeople: number;
+    activePerOneMillion: number;
+    recoveredPerOneMillion: number;
+    criticalPerOneMillion: number;
+    affectedCountries: number;
+}
+
+```
+The following interface was used in the data that was fetched from https://disease.sh/v3/covid-19/countries
+It is used in map to for showing the country-wise data in a popup on map.
+```
+interface CountryInfo {
+  _id: number;
+  lat: number;
+  long: number;
+}
+
+interface CountryData {
+  country: string;
+  cases: number;
+  active: number;
+  recovered: number;
+  deaths: number;
+  countryInfo: CountryInfo;
+}
+```
+```
+// interface for https://disease.sh/v3/covid-19/historical/all?lastdays=all
+export interface HistoricalData {
+  cases: Record<string, number>;
+  deaths: Record<string, number>;
+  recovered: Record<string, number>;
+}
+
+```
+
+for caching the fetched data, React query was also used 
+#Note: The logic for all the pages is written in /src/pages/contact and /src/pages/maps 
+
+There is a sidebar menu, on clicking you will find 3 buttons, Home, Contact, Map and Graph button. They will take you to the respective route. 
+
+The contact component on the route `"/contact"`. You can create a contact , edit contact and delete it as well. 
+The states are managed using the Redux, the states are stored in the redux store in `src/redux/store.ts`. 
+The reducer function are in the `contactSlices.ts`. These reducers are used by the contact components. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -14,11 +89,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
@@ -29,18 +99,4 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
