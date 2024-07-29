@@ -1,4 +1,4 @@
-// src/types/CountryData.ts
+//interface for https://disease.sh/v3/covid-19/countries
 export interface CountryInfo {
   _id: number;
   lat: number;
